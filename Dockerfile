@@ -1,19 +1,14 @@
-# Use the official sbt image which includes OpenJDK 11
-FROM hseeberger/scala-sbt:11.0.13_1.6.1_2.13.7 as build
+# Use a Scala and sbt based image
+FROM hseeberger/scala-sbt:11.0.11_1.5.5_2.13.6
 
-# Set the working directory inside the container
+# Set the working directory in the Docker image
 WORKDIR /app
 
-# Copy the build.sbt and other necessary files to the working directory
-
-ENV BROKER_HOST=34.16.203.41
-
+# Copy the entire project into the Docker image
 COPY . /app
 
-# Copy the source code and any necessary configuration files
+# Compile the Scala application
+RUN sbt compile
 
-# Compile the application
-RUN sbt clean compile
-
-# Define the entry point for the container to run the sbt command
-ENTRYPOINT ["sbt", "run"]
+# Command to run the application
+CMD ["sbt", "run"]
