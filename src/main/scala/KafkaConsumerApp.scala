@@ -14,7 +14,7 @@ object KafkaConsumerApp {
     import system.executionContext
 
     val consumerSettings = ConsumerSettings(system, new StringDeserializer, new StringDeserializer)
-      .withBootstrapServers(sys.env.get("BROKER_HOST")+":9092")
+      .withBootstrapServers(sys.env.get("BROKER_HOST").getOrElse("localhost")+":9092")
       .withGroupId("group1")
       .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
 
